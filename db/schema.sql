@@ -1,7 +1,6 @@
 CREATE DATABASE IF NOT EXISTS sneakershop;
 USE sneakershop;
 
--- Tabela de Funcionários
 CREATE TABLE funcionarios (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(100) NOT NULL,
@@ -15,7 +14,6 @@ CREATE TABLE funcionarios (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Tabela de Fornecedores
 CREATE TABLE fornecedores (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(100) NOT NULL,
@@ -27,13 +25,12 @@ CREATE TABLE fornecedores (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabela de Materiais/Produtos
-CREATE TABLE materiais (
+CREATE TABLE produtos (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(100) NOT NULL,
   descricao TEXT,
   marca VARCHAR(50) NOT NULL,
-  categoria ENUM('casual', 'esportivo', 'social', 'infantil') NOT NULL,
+  categoria ENUM('casual', 'esportivo', 'infantil') NOT NULL,
   tamanho VARCHAR(10) NOT NULL,
   cor VARCHAR(30) NOT NULL,
   preco_custo DECIMAL(10,2) NOT NULL,
@@ -45,33 +42,30 @@ CREATE TABLE materiais (
   FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id)
 );
 
--- Tabela de Inventário/Estoque
 CREATE TABLE inventario (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  material_id INT NOT NULL,
+  produto_id INT NOT NULL,
   quantidade_atual INT NOT NULL DEFAULT 0,
   quantidade_minima INT NOT NULL DEFAULT 5,
   quantidade_maxima INT NOT NULL DEFAULT 100,
   localizacao VARCHAR(50),
   ultima_movimentacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (material_id) REFERENCES materiais(id),
-  UNIQUE KEY unique_material (material_id)
+  FOREIGN KEY (produto_id) REFERENCES produtos(id),
+  UNIQUE KEY unique_produto (produto_id)
 );
 
--- Tabela de Movimentações de Estoque
 CREATE TABLE movimentacoes_estoque (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  material_id INT NOT NULL,
+  produto_id INT NOT NULL,
   tipo ENUM('entrada', 'saida', 'ajuste') NOT NULL,
   quantidade INT NOT NULL,
   motivo VARCHAR(100),
   funcionario_id INT,
   data_movimentacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (material_id) REFERENCES materiais(id),
+  FOREIGN KEY (produto_id) REFERENCES produtos(id),
   FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id)
 );
 
--- Tabela de Clientes
 CREATE TABLE clientes (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(100) NOT NULL,
@@ -83,7 +77,6 @@ CREATE TABLE clientes (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabela de Vendas
 CREATE TABLE vendas (
   id INT PRIMARY KEY AUTO_INCREMENT,
   cliente_id INT,
@@ -99,31 +92,28 @@ CREATE TABLE vendas (
   FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id)
 );
 
--- Tabela de Itens da Venda
 CREATE TABLE itens_venda (
   id INT PRIMARY KEY AUTO_INCREMENT,
   venda_id INT NOT NULL,
-  material_id INT NOT NULL,
+  produto_id INT NOT NULL,
   quantidade INT NOT NULL,
   preco_unitario DECIMAL(10,2) NOT NULL,
   subtotal DECIMAL(10,2) NOT NULL,
   FOREIGN KEY (venda_id) REFERENCES vendas(id) ON DELETE CASCADE,
-  FOREIGN KEY (material_id) REFERENCES materiais(id)
+  FOREIGN KEY (produto_id) REFERENCES produtos(id)
 );
 
--- Tabela de Carrinho de Compras
 CREATE TABLE carrinho (
   id INT PRIMARY KEY AUTO_INCREMENT,
   cliente_id INT,
   session_id VARCHAR(100),
-  material_id INT NOT NULL,
+  produto_id INT NOT NULL,
   quantidade INT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (cliente_id) REFERENCES clientes(id),
-  FOREIGN KEY (material_id) REFERENCES materiais(id)
+  FOREIGN KEY (produto_id) REFERENCES produtos(id)
 );
 
--- Tabela de Contas a Pagar
 CREATE TABLE contas_pagar (
   id INT PRIMARY KEY AUTO_INCREMENT,
   fornecedor_id INT NOT NULL,
@@ -138,7 +128,6 @@ CREATE TABLE contas_pagar (
   FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id)
 );
 
--- Tabela de Contas a Receber
 CREATE TABLE contas_receber (
   id INT PRIMARY KEY AUTO_INCREMENT,
   venda_id INT,
@@ -155,7 +144,6 @@ CREATE TABLE contas_receber (
   FOREIGN KEY (cliente_id) REFERENCES clientes(id)
 );
 
--- Inserir dados iniciais
 INSERT INTO funcionarios (nome, email, senha, cargo, salario, data_admissao) VALUES
 ('Admin Sistema', 'admin@sneakershop.com', '$2b$10$hash', 'admin', 5000.00, '2024-01-01'),
 ('João Vendedor', 'joao@sneakershop.com', '$2b$10$hash', 'vendedor', 2500.00, '2024-01-15'),
