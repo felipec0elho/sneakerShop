@@ -3,7 +3,7 @@ const router = Router();
 
 router.get("/produtos", async (req,res) =>{
     try {
-    const produtos = await produto.listar();
+    const produtos = await Produto.listar();
     res.json(produtos);
   } catch (error) {
     res.status(500).json({ erro: error.message });
@@ -12,10 +12,10 @@ router.get("/produtos", async (req,res) =>{
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const produto = await produto.buscarPorId(id);
+    const produto = await Produto.buscarPorId(id);
     
     if (!produto) {
-      return res.status(404).json({ error: 'produto não encontrado' });
+      return res.status(404).json({ error: 'Produto não encontrado' });
     }
     
     res.json(produto);
@@ -26,10 +26,10 @@ router.get('/:id', async (req, res) => {
 router.get('/:nome', async (req, res) => {
   try {
     const { id } = req.params;
-    const produto = await produto.buscarPorNome(id);
+    const produto = await Produto.buscarPorNome(id);
     
     if (!produto) {
-      return res.status(404).json({ error: 'produto não encontrado' });
+      return res.status(404).json({ error: 'Produto não encontrado' });
     }
     
     res.json(produto);
@@ -41,7 +41,7 @@ router.get('/:nome', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const produto_id = await produto.criar(req.body);
+        const produto_id = await Produto.criar(req.body);
         res.status(201).json({ id: produtoId, message: 'Produto adicionado com sucesso!' });
         } catch (error) {
             res.status(500).json({ erro: error.message });
@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
 router.put("/produto/:id", async (req,res) =>{
     try {
     const { id } = req.params
-    const sucesso = await produto.atualizar(id, req.body);
+    const sucesso = await Produto.atualizar(id, req.body);
     if (!sucesso) {
       return res.status(404).json({ erro: 'Produto não encontrado' });
     }
@@ -63,7 +63,7 @@ router.put("/produto/:id", async (req,res) =>{
 router.delete("/produto/:id",async (req,res) =>{
     try {
     const { id } = req.params
-    const sucesso = await produto.excluir(id);
+    const sucesso = await Produto.excluir(id);
     if (!sucesso) {
       return res.status(404).json({ erro: 'Produto não encontrado' });
     }
