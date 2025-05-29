@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Venda = require('../models/Venda');
 
-// Listar vendas
 router.get('/', async (req, res) => {
   try {
     const vendas = await Venda.listar();
@@ -12,7 +11,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Buscar venda por ID
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -28,7 +26,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Criar nova venda
 router.post('/', async (req, res) => {
   try {
     const vendaId = await Venda.criar(req.body);
@@ -38,7 +35,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Atualizar status da venda
 router.put('/:id/status', async (req, res) => {
   try {
     const { id } = req.params;

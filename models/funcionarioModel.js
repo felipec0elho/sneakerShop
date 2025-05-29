@@ -22,13 +22,17 @@ class Funcionario{
 
   static async buscarPorEmail(email) {
     const [rows] = await db.execute(`
-      SELECT * FROM funcionarios WHERE email = ?
+      SELECT * 
+      FROM funcionarios 
+      WHERE email = ?
     `, [email]);
     return rows[0];
   }
   static async buscarPorNome(nome) {
     const [rows] = await db.execute(`
-      SELECT * FROM funcionarios WHERE nome = ?
+      SELECT * 
+      FROM funcionarios 
+      WHERE nome = ?
     `, [nome]);
     return rows[0];
   }

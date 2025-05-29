@@ -25,7 +25,6 @@ class Venda {
 
     const venda = vendas[0];
 
-    // Buscar itens da venda
     const [itens] = await db.execute(`
       SELECT iv.*, m.nome as produto_nome, m.marca, m.categoria
       FROM itens_venda iv
@@ -50,27 +49,23 @@ class Venda {
 
       const vendaId = result.insertId;
 
-      // Adicionar itens da venda
       for (const item of venda.itens) {
         await connection.execute(`
           INSERT INTO itens_venda (venda_id, material_id, quantidade, preco_unitario, subtotal)
           VALUES (?, ?, ?, ?, ?)
         `, [vendaId, item.material_id, item.quantidade, item.preco_unitario, item.subtotal]);
 
-        // Baixar do estoque
         await connection.execute(`
           UPDATE inventario SET quantidade_atual = quantidade_atual - ?
           WHERE material_id = ?
         `, [item.quantidade, item.material_id]);
 
-        // Registrar movimentação
         await connection.execute(`
           INSERT INTO movimentacoes_estoque (material_id, tipo, quantidade, motivo, funcionario_id)
           VALUES (?, 'saida', ?, 'Venda', ?)
         `, [item.material_id, item.quantidade, venda.funcionario_id]);
       }
 
-      // Máquina de estados: se confirmada, criar conta a receber
       if (venda.status === 'confirmada' && venda.forma_pagamento !== 'dinheiro') {
         await connection.execute(`
           INSERT INTO contas_receber (venda_id, cliente_id, descricao, valor, data_vencimento, status)
@@ -92,9 +87,7 @@ class Venda {
         UPDATE vendas SET status = ? WHERE id = ?
       `, [novoStatus, id]);
 
-      // Máquina de estados para vendas
       if (novoStatus === 'cancelada') {
-        // Devolver produtos ao estoque
         const [itens] = await connection.execute(`
           SELECT material_id, quantidade FROM itens_venda WHERE venda_id = ?
         `, [id]);
@@ -106,14 +99,12 @@ class Venda {
           `, [item.quantidade, item.material_id]);
         }
 
-        // Cancelar conta a receber se existir
         await connection.execute(`
           UPDATE contas_receber SET status = 'cancelada' WHERE venda_id = ?
         `, [id]);
       }
 
       if (novoStatus === 'paga') {
-        // Marcar conta como recebida
         await connection.execute(`
           UPDATE contas_receber SET status = 'recebida', data_recebimento = NOW() WHERE venda_id = ?
         `, [id]);

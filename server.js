@@ -10,8 +10,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 
-
-
 const produtosRoute = require('./routers/produtosRoute');
 const inventarioRoute = require('./routers/inventarioRoute');
 const vendasRoute = require('./routers/vendasRoute');
