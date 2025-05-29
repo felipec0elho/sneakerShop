@@ -9,7 +9,6 @@ CREATE TABLE funcionarios (
   cargo ENUM('admin', 'vendedor', 'estoquista') NOT NULL,
   salario DECIMAL(10,2),
   data_admissao DATE NOT NULL,
-  status ENUM('ativo', 'inativo') DEFAULT 'ativo',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

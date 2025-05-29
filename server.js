@@ -23,8 +23,8 @@ const relatoriosRoute = require('./routers/relatoriosRoute');
 const clientesRoute = require('./routers/clientesRoute');
 
 app.use ('/produtos', produtosRoute);
-app.use('/inventario', inventarioRoute);
 app.use('/vendas', vendasRoute);
+app.use('/inventario', inventarioRoute);
 app.use('/carrinho', carrinhoRoute);
 app.use('/funcionarios', funcionariosRoute);
 app.use('/contas-pagar', contasPagarRoute);

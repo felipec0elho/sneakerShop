@@ -1,5 +1,6 @@
-const Router = require("express").Router;
-const router = Router();
+const express = require('express');
+const router = express.Router();
+const Produto = require('../models/inventarioModel')
 
 router.get("/produtos", async (req,res) =>{
     try {
@@ -41,7 +42,7 @@ router.get('/:nome', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const produto_id = await Produto.criar(req.body);
+        const produto_id = await Produto.criarProduto(req.body);
         res.status(201).json({ id: produtoId, message: 'Produto adicionado com sucesso!' });
         } catch (error) {
             res.status(500).json({ erro: error.message });

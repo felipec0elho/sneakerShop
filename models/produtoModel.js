@@ -1,4 +1,3 @@
-// models/usuarioModel.js
 const pool = require('../db/mysql');
 class Produto{
   static async listar() {
@@ -23,7 +22,7 @@ class Produto{
       const [rows] = await db.execute(`SELECT * FROM produtos p WHERE p.nome LIKE ? AND p.status = 'ativo'`, [nome]);
       return rows[0];
   }
-  static async criarProduto(usuario, senha_hash) {
+  static async criarProduto(produto) {
     const [result] = await db.execute(`
           INSERT INTO produtos (nome, descricao, marca, categoria, tamanho, cor, preco_custo, preco_venda, fornecedor_id)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
