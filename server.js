@@ -17,7 +17,6 @@ const carrinhoRoute = require('./routers/carrinhoRoute');
 const funcionariosRoute = require('./routers/funcionariosRoute');
 const contasPagarRoute = require('./routers/contasPagarRoute');
 const contasReceberRoute = require('./routers/contasReceberRoute');
-const relatoriosRoute = require('./routers/relatoriosRoute');
 const clientesRoute = require('./routers/clientesRoute');
 
 app.use ('/produtos', produtosRoute);
@@ -27,7 +26,6 @@ app.use('/carrinho', carrinhoRoute);
 app.use('/funcionarios', funcionariosRoute);
 app.use('/contas-pagar', contasPagarRoute);
 app.use('/contas-receber', contasReceberRoute);
-app.use('/relatorios', relatoriosRoute);
 app.use('/clientes', clientesRoute);
 
 

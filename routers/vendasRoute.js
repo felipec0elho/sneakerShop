@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Venda = require('../models/Venda');
 
-router.get('/', async (req, res) => {
+router.get('/vendas', async (req, res) => {
   try {
     const vendas = await Venda.listar();
     res.json(vendas);
@@ -49,3 +49,4 @@ router.put('/:id/status', async (req, res) => {
         res.status(500).json({ error: error.message });
 }
 });
+module.exports = router;
