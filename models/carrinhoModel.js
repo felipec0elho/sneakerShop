@@ -1,4 +1,4 @@
-const pool = require('../db/mysql');
+const db = require('../db/mysql');
 
 class Carrinho{
     static async obterItens(clienteId, sessionId = null) {

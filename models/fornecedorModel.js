@@ -1,4 +1,4 @@
-const pool = require('../db/mysql');
+const db = require('../db/mysql');
 
 class Fornecedor{
     static async listar() {

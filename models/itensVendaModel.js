@@ -1,4 +1,4 @@
-const pool = require('../db/mysql');
+const db = require('../db/mysql');
 class ItensVenda {
   static async listarPorVenda(vendaId) {
     const [rows] = await db.execute(`

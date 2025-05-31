@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Funcionario = require('../models/funcionarioModel.js');
 
-router.get('/funcionarios', async (req,res) =>{
+router.get('/', async (req,res) =>{
     try {
         const funcionarios = await Funcionario.listar();
         res.json(funcionarios);

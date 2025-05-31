@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Cliente = require('../models/clienteModel.js')
 
-router.get("/clientes", async (req,res) =>{
+router.get("/", async (req,res) =>{
     try {
     const clientes = await Cliente.listar();
     res.json(clientes);

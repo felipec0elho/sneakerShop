@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Produto = require('../models/produtoModel')
 
-router.get("/produtos", async (req,res) =>{
+router.get("/", async (req,res) =>{
     try {
     const produtos = await Produto.listar();
     res.json(produtos);
@@ -26,8 +26,8 @@ router.get('/:id', async (req, res) => {
 });
 router.get('/:nome', async (req, res) => {
   try {
-    const { id } = req.params;
-    const produto = await Produto.buscarPorNome(id);
+    const { nome } = req.params;
+    const produto = await Produto.buscarPorNome(nome);
     
     if (!produto) {
       return res.status(404).json({ error: 'Produto não encontrado' });
@@ -42,14 +42,15 @@ router.get('/:nome', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const produto_id = await Produto.criarProduto(req.body);
-        res.status(201).json({ id: produtoId, message: 'Produto adicionado com sucesso!' });
-        } catch (error) {
-            res.status(500).json({ erro: error.message });
-            }
+        await Produto.criarProduto(req.body);
+        res.status(201).json({ message: 'Produto adicionado com sucesso!' });
+    } catch (error) {
+        res.status(500).json({ erro: error.message });
+    }
 });
 
-router.put("/produto/:id", async (req,res) =>{
+
+router.put("/:id", async (req,res) =>{
     try {
     const { id } = req.params
     const sucesso = await Produto.atualizar(id, req.body);
@@ -61,7 +62,7 @@ router.put("/produto/:id", async (req,res) =>{
     res.status(400).json({ erro: error.message });
   }
 });
-router.delete("/produto/:id",async (req,res) =>{
+router.delete("/:id",async (req,res) =>{
     try {
     const { id } = req.params
     const sucesso = await Produto.excluir(id);

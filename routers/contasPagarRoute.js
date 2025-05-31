@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ContasPagar = require('../models/contasPagarModel');
 
-router.get('/contasPagar', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const contas = await ContasPagar.listar();
     res.json(contas);

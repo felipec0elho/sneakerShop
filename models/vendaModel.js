@@ -1,4 +1,4 @@
-const db = require('../config/database');
+const db = require('../db/mysql');
 
 class Venda {
   static async listar() {

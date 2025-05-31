@@ -1,4 +1,4 @@
-const pool = require('../db/mysql');
+const db = require('../db/mysql');
 const bcrypt = require('bcrypt');
 
 class Funcionario{

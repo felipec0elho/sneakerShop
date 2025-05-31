@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Carrinho = require('../models/Carrinho');
+const Carrinho = require('../models/carrinhoModel');
 
 router.get('/', async (req, res) => {
   try {

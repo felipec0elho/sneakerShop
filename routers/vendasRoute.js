@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Venda = require('../models/Venda');
+const Venda = require('../models/vendaModel');
 
-router.get('/vendas', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const vendas = await Venda.listar();
     res.json(vendas);
